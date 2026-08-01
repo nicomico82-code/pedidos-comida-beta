@@ -1,0 +1,10 @@
+{
+  "name": "Tu Negocio - Pedidos",
+  "short_name": "Pedidos",
+  "description": "Pedidos online para tu negocio.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f3ec",
+  "theme_color": "#d96835",
+  "lang": "es-CL"
+}
