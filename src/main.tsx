@@ -9,7 +9,8 @@ const isAdmin =
   location.pathname.startsWith("/admin") ||
   hostLabel === "admin" ||
   hostLabel.startsWith("admin-") ||
-  hostLabel.endsWith("-admin");
+  hostLabel.endsWith("-admin") ||
+  /(^|-)admin(-|$)/.test(hostLabel);
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     {isAdmin ? <AdminApp /> : <App />}
