@@ -101,7 +101,7 @@ export default function AdminApp() {
       ) : (
         <section className="admin-list">
           {orders.map((order) => (
-            <article className="admin-order" key={order.id}>
+            <article className="admin-order" data-status={order.status} key={order.id}>
               <div className="admin-order-details">
                 <b>{order.orderCode}</b>
                 <h2>{order.customerName}</h2>
