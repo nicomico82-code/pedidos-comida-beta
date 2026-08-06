@@ -20,15 +20,25 @@ const json = (c: any, body: unknown, status = 200) => c.json(body, status);
 const code = () => `PED-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
 const assets = async (c: any) => c.env.ASSETS.fetch(c.req.raw);
 
+const demoCatalog: Record<string, { description: string; category: string }> = {
+  "prod-1": { description: "Vienesa, tomate, palta y mayo. Déjalo exactamente a tu gusto.", category: "Favoritos" },
+  "prod-2": { description: "Carne, tomate, palta y mayo en pan recién tostado.", category: "Sándwiches" },
+  "prod-3": { description: "Completo italiano, papas fritas y bebida en un solo pedido.", category: "Combos" },
+  "prod-4": { description: "Bebida individual fría. Elige el sabor al retirar.", category: "Bebidas" },
+  "prod-5": { description: "Brownie tibio con una porción de helado de vainilla.", category: "Postres" },
+};
+
 async function settings(env: Env["Bindings"]) {
   const rows = await env.DB.prepare("SELECT key,value FROM business_settings").all<{
     key: string;
     value: string;
   }>();
   const values = Object.fromEntries(rows.results.map((row) => [row.key, row.value]));
+  const storedName = values.business_name || env.APP_NAME || "Tu Negocio";
+  const storedLocation = values.location || env.BUSINESS_LOCATION || "Tu ciudad";
   return {
-    businessName: values.business_name || env.APP_NAME || "Tu Negocio",
-    location: values.location || env.BUSINESS_LOCATION || "Tu ciudad",
+    businessName: storedName === "Tu Negocio" ? "Sazón Express" : storedName,
+    location: storedLocation === "Tu ciudad" ? "Demo gastronómica · San Carlos" : storedLocation,
     whatsapp: values.whatsapp || "",
   };
 }
@@ -51,8 +61,10 @@ export function createPublicApp() {
       products: products.results.map((raw: any) => ({
         id: raw.id,
         name: displayProductName(raw),
-        description: raw.description,
-        category: raw.category,
+        description: /^Descripci[oó]n editable/i.test(raw.description)
+          ? demoCatalog[raw.id]?.description ?? raw.description
+          : raw.description,
+        category: demoCatalog[raw.id]?.category ?? raw.category,
         priceClp: raw.price_clp,
         active: Boolean(raw.active),
         customizable: isCustomizableProduct(raw),

@@ -66,6 +66,12 @@ export default function AdminApp() {
     setWhatsappPreview({ orderId: order.id, text: notificationText(order) });
   };
 
+  const summary = {
+    received: orders.filter((order) => order.status === "received").length,
+    preparing: orders.filter((order) => order.status === "preparing").length,
+    ready: orders.filter((order) => order.status === "ready").length,
+  };
+
   return (
     <main className="admin">
       <header>
@@ -74,8 +80,16 @@ export default function AdminApp() {
           <p className="eyebrow">PANEL DE PEDIDOS</p>
           <h1>Operación del día</h1>
         </div>
+        <span className="admin-live"><i /> Actualización automática</span>
         <button onClick={load}>Actualizar</button>
       </header>
+
+      <section className="admin-summary" aria-label="Resumen de pedidos">
+        <article><span>Nuevos</span><strong>{summary.received}</strong></article>
+        <article><span>En preparación</span><strong>{summary.preparing}</strong></article>
+        <article><span>Listos</span><strong>{summary.ready}</strong></article>
+        <article><span>Total del día</span><strong>{orders.length}</strong></article>
+      </section>
 
       {error && <p className="error">{error}</p>}
 

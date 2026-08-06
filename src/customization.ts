@@ -30,9 +30,14 @@ export function isCustomizableProduct(product: { id: string; name: string; categ
 }
 
 export function displayProductName(product: { id: string; name: string }) {
-  if (product.id === "prod-1" && /^producto\s*1$/i.test(product.name.trim())) {
-    return "Completo italiano";
-  }
+  const demoNames: Record<string, string> = {
+    "prod-1": "Completo italiano",
+    "prod-2": "Churrasco italiano",
+    "prod-3": "Combo completo",
+    "prod-4": "Bebida lata",
+    "prod-5": "Brownie con helado",
+  };
+  if (/^producto\s*\d+$/i.test(product.name.trim()) && demoNames[product.id]) return demoNames[product.id];
   return product.name;
 }
 

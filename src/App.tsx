@@ -156,6 +156,7 @@ export default function App() {
           <h2>{catalog.business.businessName}</h2>
           <p>{catalog.business.location}</p>
         </div>
+        <span className="live-badge"><i /> Demo interactiva</span>
       </header>
 
       <main>
@@ -163,11 +164,19 @@ export default function App() {
           <p className="eyebrow">PEDIDOS ONLINE</p>
           <h1>Tu comida, lista cuando quieras.</h1>
           <p>Elige tus productos, arma tu pedido y selecciona retiro o despacho.</p>
+          <div className="hero-benefits" aria-label="Ventajas del pedido online">
+            <span>✓ Personaliza ingredientes</span>
+            <span>✓ Retiro o despacho</span>
+            <span>✓ Confirmación inmediata</span>
+          </div>
         </section>
 
         <div className="layout">
           <section>
-            <h2>Menú</h2>
+            <div className="menu-heading">
+              <div><span>Preparado para ti</span><h2>Explora el menú</h2></div>
+              <small>5 opciones · precios demo</small>
+            </div>
             <div className="products">
               {catalog.products
                 .filter((product) => product.active)
@@ -200,7 +209,7 @@ export default function App() {
           <aside className="cart">
             <h2>Tu pedido</h2>
             {cart.length === 0 ? (
-              <p className="muted">Todavía no agregas productos.</p>
+              <div className="cart-empty"><span>01</span><p className="muted">Agrega algo del menú y completa tu pedido aquí.</p></div>
             ) : (
               <>
                 {cart.map((item) => (
